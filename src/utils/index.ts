@@ -4,7 +4,7 @@ import {
     useEffect
 } from "react"
 
-export const isFalsy = (value: any) => value === 0 ? false : !value
+export const isFalsy = (value: unknown) => value === 0 ? false : !value
 
 // 在一个函数里，改变传入的对象本身是不好的
 export const cleanObject = (object: object) => {
@@ -30,7 +30,7 @@ export const useMount = (callback: () => void) => {
 }
 
 
-export const debounce = (cb: any, time: number, triggerNow: boolean) => {
+export const debounce = (cb: Function, time: number, triggerNow: boolean) => {
     let t: any = null,
         res: any;
 
@@ -69,7 +69,7 @@ export const debounce = (cb: any, time: number, triggerNow: boolean) => {
     return _debounce;
 }
 
-export const useDebounce2 = (value: any, delay?: number) => {
+export const useDebounce2 = <V>(value: V, delay?: number) => {
     const [debouncedValue, setDebouncedValue] = useState(value)
 
     // const [time, setTime] = useState(undefined);
