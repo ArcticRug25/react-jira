@@ -1,3 +1,4 @@
+import { Input, Select } from "antd";
 import React from "react";
 
 export interface User {
@@ -26,7 +27,7 @@ export default function SearchPanel({
   return (
     <form>
       <div>
-        <input
+        <Input
           type="text"
           value={param.name}
           onChange={(e) =>
@@ -36,22 +37,22 @@ export default function SearchPanel({
             })
           }
         />
-        <select
+        <Select
           value={param.personId}
-          onChange={(e) =>
+          onChange={(value) =>
             setParam({
               ...param,
-              personId: e.target.value,
+              personId: value,
             })
           }
         >
-          <option value={""}>负责人</option>
+          <Select.Option value={""}>负责人</Select.Option>
           {users.map((user) => (
             <option value={user.id} key={user.id}>
               {user.name}
             </option>
           ))}
-        </select>
+        </Select>
       </div>
     </form>
   );
