@@ -16,7 +16,7 @@ import { ProjectListScreen } from "screens/project-list";
 
 export default function AuthenticatedApp() {
   const { logout} = useAuth();
-
+const a= 
   return (
     <Container>
 
@@ -32,6 +32,7 @@ export default function AuthenticatedApp() {
         <ProjectListScreen />
 
       </Main>
+
 
       <Aside>aside</Aside>
 

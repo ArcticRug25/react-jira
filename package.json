@@ -2,6 +2,18 @@
   "name": "jira",
   "version": "0.1.0",
   "private": true,
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,md,ts,tsx}": [
+      "prettier --config .prettierrc --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
   "dependencies": {
     "@craco/craco": "^6.1.2",
     "@emotion/react": "^11.4.0",
@@ -51,21 +63,14 @@
   "devDependencies": {
     "@types/node": "^12.20.14",
     "@types/qs": "^6.9.6",
+    "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.3.0",
     "husky": "^6.0.0",
     "json-server": "^0.16.3",
     "lint-staged": "^11.0.0",
-    "prettier": "^2.2.1"
+    "prettier": "^2.3.1"
   },
   "msw": {
     "workerDirectory": "public"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,css,md,ts,tsx}": "eslint --fix"
   }
 }
