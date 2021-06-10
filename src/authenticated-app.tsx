@@ -15,19 +15,29 @@ import { ProjectListScreen } from "screens/project-list";
  */
 
 export default function AuthenticatedApp() {
-  const { logout } = useAuth();
+  const { logout} = useAuth();
 
   return (
     <Container>
+
       <Header>
-        <button onClick={logout}>登出</button>
-      </Header>
-      <Nav>nav</Nav>
+
+
+        <button onClick={logout}>
+          登出</button>
+      </Header><Nav>nav
+
+      </Nav>
       <Main>
         <ProjectListScreen />
+
       </Main>
+
       <Aside>aside</Aside>
-      <Footer>footer</Footer>
+
+
+      <Footer>
+        footer</Footer>
     </Container>
   );
 }
