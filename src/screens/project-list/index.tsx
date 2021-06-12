@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import List from './list'
 import SearchPanel from './search-panel'
-import { cleanObject, useDebounce2, useMount } from 'utils'
-import { useHttp } from 'utils/http'
+import { useDebounce2 } from 'utils'
 import styled from '@emotion/styled'
+import { Typography } from 'antd'
+import { useProjects } from 'utils/project'
+import { useUser } from 'utils/user'
 
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
@@ -13,24 +14,15 @@ export const ProjectListScreen = () => {
     personId: '',
   })
   const debouncedParam = useDebounce2(param, 200)
-  const [list, setList] = useState([])
-  const [users, setUsers] = useState([])
-  const client = useHttp()
+  const { isLoading, error, data: list } = useProjects(debouncedParam)
+  const { data: users } = useUser()
 
-  useEffect(() => {
-    client('projects', { data: cleanObject(debouncedParam) }).then(setList)
-    return () => {}
-  }, [debouncedParam])
-
-  useMount(() => {
-    client('users').then(setUsers)
-  })
-
-  return ( 
+  return (
     <Container>
       <h1>项目列表</h1>
-      <SearchPanel param={param} setParam={setParam} users={users} />
-      <List list={list} users={users} />
+      <SearchPanel param={param} setParam={setParam} users={users || []} />
+      {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
+      <List loading={isLoading} dataSource={list || []} users={users || []} />
     </Container>
   )
 }
