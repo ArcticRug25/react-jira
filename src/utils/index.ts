@@ -1,7 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
     useState,
-    useEffect
+    useEffect,
+    useRef
 } from "react"
 
 export const isFalsy = (value: unknown) => value === 0 ? false : !value
@@ -90,7 +90,9 @@ export const useDebounce2 = <V>(value: V, delay?: number) => {
 }
 
 export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) => {
-    const oldTitle = document.title
+    const oldTitle = useRef(document.title).current;
+    // 页面加载时：旧 title
+    // 加载后：新 title
 
     useEffect(() => {
         document.title = title
@@ -99,8 +101,9 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
     useEffect(() => {
         return () => {
             if (!keepOnUnmount) {
+                // 如果不指定依赖，读到的就是旧 title
                 document.title = oldTitle
             }
         }
-    }, [])
+    }, [keepOnUnmount, oldTitle])
 }

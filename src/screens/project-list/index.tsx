@@ -17,7 +17,7 @@ export const ProjectListScreen = () => {
   const { isLoading, error, data: list } = useProjects(debouncedParam)
   const { data: users } = useUser()
 
-  useDocumentTitle('项目列表')
+  useDocumentTitle('项目列表', false)
 
   return (
     <Container>

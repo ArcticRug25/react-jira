@@ -19,13 +19,6 @@ export default function UnauthenticatedApp() {
     <Container>
       <Header />
       <Background />
-      <Button
-        onClick={() => {
-          throw new Error('点击抛出异常')
-        }}
-      >
-        抛出异常
-      </Button>
       <ShadowCard>
         <Title>{isRegister ? '请注册' : '请登录'}</Title>
         {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
