@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
     useState,
     useEffect,
@@ -107,3 +108,5 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
         }
     }, [keepOnUnmount, oldTitle])
 }
+
+export const resetRoute = () => window.location.href = window.location.origin
