@@ -6,18 +6,15 @@ import styled from '@emotion/styled'
 import { Typography } from 'antd'
 import { useProjects } from 'utils/project'
 import { useUser } from 'utils/user'
-import { useUrlQueryParam } from 'utils/url'
+import { useProjectsSearchParams } from './util'
 
 export const ProjectListScreen = () => {
-  // 基本类型，可以放到依赖里；组件状态，可以放到依赖里；非组件状态的对象绝不可以放到依赖里（引起无限渲染）
-  const [param, setParam] = useUrlQueryParam(['name', 'personId'])
-  const debouncedParam = useDebounce2(param, 200)
-  const { isLoading, error, data: list } = useProjects(debouncedParam)
-  const { data: users } = useUser()
-
   useDocumentTitle('项目列表', false)
 
-  useUrlQueryParam(['random'])
+  // 基本类型，可以放到依赖里；组件状态，可以放到依赖里；非组件状态的对象绝不可以放到依赖里（引起无限渲染）
+  const [param, setParam] = useProjectsSearchParams()
+  const { isLoading, error, data: list } = useProjects(useDebounce2(param, 200))
+  const { data: users } = useUser()
 
   return (
     <Container>
@@ -29,7 +26,7 @@ export const ProjectListScreen = () => {
   )
 }
 
-ProjectListScreen.whyDidYouRender = false
+ProjectListScreen.whyDidYouRender = true
 
 const Container = styled.div`
   padding: 3.2rem;
