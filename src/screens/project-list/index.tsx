@@ -13,7 +13,7 @@ export const ProjectListScreen = () => {
 
   // 基本类型，可以放到依赖里；组件状态，可以放到依赖里；非组件状态的对象绝不可以放到依赖里（引起无限渲染）
   const [param, setParam] = useProjectsSearchParams()
-  const { isLoading, error, data: list } = useProjects(useDebounce2(param, 200))
+  const { isLoading, error, data: list, retry } = useProjects(useDebounce2(param, 200))
   const { data: users } = useUser()
 
   return (
@@ -21,7 +21,7 @@ export const ProjectListScreen = () => {
       <h1>项目列表</h1>
       <SearchPanel param={param} setParam={setParam} users={users || []} />
       {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
-      <List loading={isLoading} dataSource={list || []} users={users || []} />
+      <List refresh={retry} loading={isLoading} dataSource={list || []} users={users || []} />
     </Container>
   )
 }
