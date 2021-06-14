@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useAuth } from './../context/auth-context';
 import qs from "qs";
 import * as auth from 'utils/auth-provider'
@@ -45,6 +46,6 @@ export const http = async (endpoint: string, { data, token, headers, ...customCo
 export const useHttp = () => {
     const { user } = useAuth();
     // Parameters<Function> 读取Function类型的参数类型  typeof http 获取 http 的类型
-    return (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token })
+    return useCallback((...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token }), [user?.token])
 }
 
