@@ -1,21 +1,15 @@
 import styled from '@emotion/styled'
-import { Divider, List, Popover, Typography, Button } from 'antd'
-import { useState } from 'react'
+import { Divider, List, Popover, PopoverProps, Typography } from 'antd'
 import { useProjects } from 'utils/project'
 
-export const ProjectPopover = (props: { setProjectModalOpen: (isOpen: boolean) => void }) => {
+interface ProjectPopoverProps extends PopoverProps {
+  projectButton: JSX.Element
+  handleVisibleChange: (v:boolean) => void
+}
+
+export const ProjectPopover = (props: ProjectPopoverProps) => {
   const { data: projects, isLoading } = useProjects()
-  const [visible, setVisible] = useState(false)
   const pinnedProjects = projects?.filter((project) => project.pin)
-
-  const handleVisibleChange = (visible: boolean) => {
-    setVisible(visible)
-  }
-
-  const handleProjectModal = () => {
-    handleVisibleChange(false)
-    props.setProjectModalOpen(true)
-  }
 
   const content = (
     <ContentContainer>
@@ -28,14 +22,12 @@ export const ProjectPopover = (props: { setProjectModalOpen: (isOpen: boolean) =
         ))}
       </List>
       <Divider />
-      <Button onClick={handleProjectModal} type={'link'}>
-        创建项目
-      </Button>
+      {props.projectButton}
     </ContentContainer>
   )
 
   return (
-    <Popover visible={visible} onVisibleChange={handleVisibleChange} placement={'bottom'} content={content}>
+    <Popover visible={props.visible} onVisibleChange={props.handleVisibleChange} placement={'bottom'} content={content} >
       项目
     </Popover>
   )

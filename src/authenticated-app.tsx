@@ -25,15 +25,44 @@ import { ProjectPopover } from 'components/project-popover'
 
 export default function AuthenticatedApp() {
   const [projectModalOpen, setProjectModalOpen] = useState(false)
+  const [visible, setVisible] = useState(false)
+  const handleVisibleChange = (visible: boolean) => {
+    setVisible(visible)
+  }
 
   return (
     <Container>
-      <PageHeader setProjectModalOpen={setProjectModalOpen} />
+      <PageHeader
+        visible={visible}
+        handleVisibleChange={handleVisibleChange}
+        projectButton={
+          <ButtonNoPadding
+            onClick={() => {
+              setVisible(false)
+              setProjectModalOpen(true)
+            }}
+            type={'link'}
+          >
+            创建项目
+          </ButtonNoPadding>
+        }
+      />
       <ButtonNoPadding onClick={() => setProjectModalOpen(true)}>打开</ButtonNoPadding>
       <Main>
         <Router>
           <Routes>
-            <Route path={'/projects'} element={<ProjectListScreen setProjectModalOpen={setProjectModalOpen} />} />
+            <Route
+              path={'/projects'}
+              element={
+                <ProjectListScreen
+                  projectButton={
+                    <ButtonNoPadding onClick={() => setProjectModalOpen(true)} type={'link'}>
+                      创建项目
+                    </ButtonNoPadding>
+                  }
+                />
+              }
+            />
             <Route path={'/projects/:projectId/*'} element={<ProjectScreen />} />
             <Navigate to={'/projects'} />
           </Routes>
@@ -44,14 +73,18 @@ export default function AuthenticatedApp() {
   )
 }
 
-const PageHeader = (props: { setProjectModalOpen: (isOpen: boolean) => void }) => {
+const PageHeader = (props: {
+  projectButton: JSX.Element
+  visible: boolean
+  handleVisibleChange: (visible: boolean) => void
+}) => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
         <ButtonNoPadding type={'link'} onClick={resetRoute}>
           <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} />
         </ButtonNoPadding>
-        <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
+        <ProjectPopover {...props} />
         <span>用户</span>
       </HeaderLeft>
       <HeaderRight>
