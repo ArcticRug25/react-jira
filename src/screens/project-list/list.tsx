@@ -18,7 +18,6 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[]
   refresh?: () => void
-  projectButton: JSX.Element
 }
 
 export default function List({ users, ...props }: ListProps) {
@@ -70,7 +69,7 @@ export default function List({ users, ...props }: ListProps) {
               <Dropdown
                 overlay={
                   <Menu>
-                    <Menu.Item key={'edit'}>{props.projectButton}</Menu.Item>
+                    <Menu.Item key={'edit'}></Menu.Item>
                   </Menu>
                 }
               >
