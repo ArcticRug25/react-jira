@@ -60,6 +60,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
 
         return promise
             .then(data => {
+                setData(data)
                 return data;
             })
             .catch(error => {
@@ -70,7 +71,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
                 }
                 return error
             })
-    }, [config.throwOnError, setError, safeDispatch])
+    }, [config.throwOnError, setError, safeDispatch, setData])
 
     return {
         isIdle: state.stat === 'idle',

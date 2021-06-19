@@ -1,5 +1,4 @@
 import styled from '@emotion/styled'
-import { useState } from 'react'
 import { Row, ButtonNoPadding } from 'components/lib'
 import { useAuth } from 'context/auth-context'
 import { ProjectListScreen } from 'screens/project-list'
@@ -11,6 +10,8 @@ import { ProjectScreen } from 'screens/project'
 import { resetRoute } from 'utils'
 import { ProjectModal } from 'screens/project-list/project-modal'
 import { ProjectPopover } from 'components/project-popover'
+import { useDispatch } from 'react-redux'
+import { projectListActions } from 'screens/project-list/project-list.slice'
 
 /**
  * grid 和 flex 各自的应用场景
@@ -24,43 +25,24 @@ import { ProjectPopover } from 'components/project-popover'
  */
 
 export default function AuthenticatedApp() {
-  const [projectModalOpen, setProjectModalOpen] = useState(false)
-  const [visible, setVisible] = useState(false)
-  const handleVisibleChange = (visible: boolean) => {
-    setVisible(visible)
-  }
+  // const [projectModalOpen, setProjectModalOpen] = useState(false)
+  // const [visible, setVisible] = useState(false)
+  // const handleVisibleChange = (visible: boolean) => {
+  //   setVisible(visible)
+  // }
+  const dispatch = useDispatch()
 
   return (
     <Container>
-      <PageHeader
-        visible={visible}
-        handleVisibleChange={handleVisibleChange}
-        projectButton={
-          <ButtonNoPadding
-            onClick={() => {
-              setVisible(false)
-              setProjectModalOpen(true)
-            }}
-            type={'link'}
-          >
-            创建项目
-          </ButtonNoPadding>
-        }
-      />
-      <ButtonNoPadding onClick={() => setProjectModalOpen(true)}>打开</ButtonNoPadding>
+      <PageHeader />
+      <ButtonNoPadding onClick={() => dispatch(projectListActions.openProjectModal())}>打开</ButtonNoPadding>
       <Main>
         <Router>
           <Routes>
             <Route
               path={'/projects'}
               element={
-                <ProjectListScreen
-                  projectButton={
-                    <ButtonNoPadding onClick={() => setProjectModalOpen(true)} type={'link'}>
-                      创建项目
-                    </ButtonNoPadding>
-                  }
-                />
+                <ProjectListScreen/>
               }
             />
             <Route path={'/projects/:projectId/*'} element={<ProjectScreen />} />
@@ -68,23 +50,19 @@ export default function AuthenticatedApp() {
           </Routes>
         </Router>
       </Main>
-      <ProjectModal projectModalOpen={projectModalOpen} onClose={() => setProjectModalOpen(false)} />
+      <ProjectModal />
     </Container>
   )
 }
 
-const PageHeader = (props: {
-  projectButton: JSX.Element
-  visible: boolean
-  handleVisibleChange: (visible: boolean) => void
-}) => {
+const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
         <ButtonNoPadding type={'link'} onClick={resetRoute}>
           <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} />
         </ButtonNoPadding>
-        <ProjectPopover {...props} />
+        <ProjectPopover />
         <span>用户</span>
       </HeaderLeft>
       <HeaderRight>

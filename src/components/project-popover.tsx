@@ -1,14 +1,13 @@
 import styled from '@emotion/styled'
-import { Divider, List, Popover, PopoverProps, Typography } from 'antd'
+import { Divider, List, Popover, Typography } from 'antd'
 import { useProjects } from 'utils/project'
+import { ButtonNoPadding } from './lib'
+import { useDispatch } from 'react-redux'
+import { projectListActions } from 'screens/project-list/project-list.slice'
 
-interface ProjectPopoverProps extends PopoverProps {
-  projectButton: JSX.Element
-  handleVisibleChange: (v:boolean) => void
-}
-
-export const ProjectPopover = (props: ProjectPopoverProps) => {
-  const { data: projects, isLoading } = useProjects()
+export const ProjectPopover = () => {
+  const dispatch = useDispatch()
+  const { data: projects } = useProjects()
   const pinnedProjects = projects?.filter((project) => project.pin)
 
   const content = (
@@ -22,12 +21,14 @@ export const ProjectPopover = (props: ProjectPopoverProps) => {
         ))}
       </List>
       <Divider />
-      {props.projectButton}
+      <ButtonNoPadding onClick={() => dispatch(projectListActions.openProjectModal())} type={'link'}>
+        创建项目
+      </ButtonNoPadding>
     </ContentContainer>
   )
 
   return (
-    <Popover visible={props.visible} onVisibleChange={props.handleVisibleChange} placement={'bottom'} content={content} >
+    <Popover placement={'bottom'} content={content}>
       项目
     </Popover>
   )
