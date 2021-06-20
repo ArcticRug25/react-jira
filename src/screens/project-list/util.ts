@@ -7,6 +7,11 @@ export const useProjectsSearchParams = () => {
     return [useMemo(() => ({ ...param, personId: Number(param.personId) || undefined }), [param]), setParam] as const
 }
 
+export const useProjectQueryKey = () => {
+    const [params] = useProjectsSearchParams()
+    return ['projects', params]
+}
+
 export const useProjectModal = () => {
     const [{ projectCreate }, setProjectModalOpen] = useUrlQueryParam(['projectCreate'])
     const [{ editingProjectId }, setEditingProjectId] = useUrlQueryParam(['editingProjectId'])
