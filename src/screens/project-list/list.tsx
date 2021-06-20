@@ -32,14 +32,14 @@ export default function List({ users, ...props }: ListProps) {
       columns={[
         {
           title: <Pin checked={true} disabled={true} />,
-          render(value, project) {
+          render(_, project) {
             return <Pin checked={project.pin} onCheckedChange={pinProject(project.id)} />
           },
         },
         {
           title: '名称',
           sorter: (a, b) => a.name.localeCompare(b.name),
-          render(value, project) {
+          render(_, project) {
             return <Link to={String(project.id)}>{project.name}</Link>
           },
         },
@@ -60,7 +60,7 @@ export default function List({ users, ...props }: ListProps) {
           },
         },
         {
-          render(value, project) {
+          render(_, project) {
             return <More project={project} />
           },
         },
