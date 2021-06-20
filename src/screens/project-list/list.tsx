@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { Pin } from 'components/pin'
 import { useEditProject } from 'utils/project'
 import { ButtonNoPadding } from 'components/lib'
+import { useProjectModal } from './util'
 
 export interface Project {
   id: number
@@ -22,12 +23,9 @@ interface ListProps extends TableProps<Project> {
 
 export default function List({ users, ...props }: ListProps) {
   const { mutate } = useEditProject()
-  const pinProject = (id: number) => (pin: boolean) =>
-    mutate({ id, pin }).then(() => {
-      if (props.refresh) {
-        props.refresh()
-      }
-    })
+  const { startEdit } = useProjectModal()
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
+  const editProject = (id: number) => () => startEdit(id)
 
   return (
     <Table
@@ -69,7 +67,10 @@ export default function List({ users, ...props }: ListProps) {
               <Dropdown
                 overlay={
                   <Menu>
-                    <Menu.Item key={'edit'}></Menu.Item>
+                    <Menu.Item onClick={editProject(project.id)} key={'edit'}>
+                      编辑
+                    </Menu.Item>
+                    <Menu.Item key={'delete'}>删除</Menu.Item>
                   </Menu>
                 }
               >
