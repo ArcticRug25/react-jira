@@ -1,10 +1,11 @@
-import { Border } from 'types/border'
+import { Kanban } from 'types/kanban'
 import { useTasks, useTaskTypes } from 'utils/task'
-import { useTasksSearchParams } from './util'
+import { useTaskModal, useTasksSearchParams } from './util'
 import bugIcon from 'assets/bug.svg'
 import taskIcon from 'assets/task.svg'
 import styled from '@emotion/styled'
 import { Card } from 'antd'
+import { CreateTask } from './create-task'
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes()
@@ -15,25 +16,28 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
   return <img src={name === 'task' ? taskIcon : bugIcon} alt={name === 'task' ? '任务' : '问题'} />
 }
 
-export const BorderColumn = ({ border }: { border: Border }) => {
+export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
   const { data: allTasks } = useTasks(useTasksSearchParams())
-  const tasks = allTasks?.filter((task) => task.kanbanId === border.id)
+  const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id)
+  const { startEdit } = useTaskModal()
+
   return (
     <Container>
-      <h3>{border.name}</h3>
+      <h3>{kanban.name}</h3>
       <TaskContainer>
         {tasks?.map((task) => (
-          <Card style={{ marginBottom: '.5rem' }} key={task.id}>
+          <Card onClick={() => startEdit(task.id)} style={{ marginBottom: '.5rem', cursor: 'pointer' }} key={task.id}>
             <div>{task.name}</div>
             <TaskTypeIcon id={task.typeId} />
           </Card>
         ))}
+        <CreateTask kanbanId={kanban.id} />
       </TaskContainer>
     </Container>
   )
 }
 
-const Container = styled.div`
+export const Container = styled.div`
   min-width: 27rem;
   border-radius: 6px;
   background-color: rgb(244, 245, 247);

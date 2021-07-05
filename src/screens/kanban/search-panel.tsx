@@ -2,7 +2,7 @@ import { Button, Input } from 'antd'
 import { Row } from 'components/lib'
 import { TaskTypeSelect } from 'components/task-type-select'
 import { UserSelect } from 'components/user-select'
-import { useTasksSearchParams } from 'screens/border/util'
+import { useTasksSearchParams } from 'screens/kanban/util'
 import { useSetUrlSearchParam } from 'utils/url'
 
 export const SearchPanel = () => {
