@@ -1,7 +1,7 @@
 import { useHttp } from './http';
 import { QueryKey, useMutation, useQuery } from 'react-query';
 import { Task, TaskType } from 'types/task';
-import { useAddConfig, useEditConfig } from './use-optimistic-options';
+import { useAddConfig, useDeleteConfig, useEditConfig } from './use-optimistic-options';
 import { Project } from 'types/project';
 
 
@@ -51,17 +51,17 @@ export const useEditTask = (queryKey: QueryKey) => {
 }
 
 
-// export const useDeleteTask = (queryKey: QueryKey) => {
-//     const client = useHttp();
+export const useDeleteTask = (queryKey: QueryKey) => {
+    const client = useHttp();
 
-//     return useMutation(
-//         ({ id }: { id: number }) =>
-//             client(`tasks/${id}`, {
-//                 method: "DELETE",
-//             }),
-//         useDeleteConfig(queryKey)
-//     );
-// };
+    return useMutation(
+        ({ id }: { id: number }) =>
+            client(`tasks/${id}`, {
+                method: "DELETE",
+            }),
+        useDeleteConfig(queryKey)
+    );
+};
 
 // export const useReorderTask = (queryKey: QueryKey) => {
 //     const client = useHttp();
