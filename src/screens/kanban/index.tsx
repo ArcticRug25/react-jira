@@ -11,6 +11,7 @@ import { CreateKanban } from './create-kanban'
 import { TaskModal } from './task-modal'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { Drag, Drop, DropChild } from 'components/drag-and-drop'
+import { useMemo } from 'react'
 
 export const KanbanScreen = () => {
   useDocumentTitle('看板列表')
@@ -19,6 +20,12 @@ export const KanbanScreen = () => {
   const { data: kanbans, isLoading: kanbanIsLoading } = useKanbans(useKanbanSearchParams())
   const { isLoading: taskIsLoading } = useTasks(useTasksSearchParams())
   const isLoading = taskIsLoading || kanbanIsLoading
+  const wrapperWidth = useMemo(() => {
+    if (kanbans) {
+      return kanbans?.length * (27 + 1.5) + 'rem'
+    }
+    return 0
+  }, [kanbans])
 
   return (
     <DragDropContext onDragEnd={() => {}}>
@@ -29,15 +36,18 @@ export const KanbanScreen = () => {
           <Spin size="large" />
         ) : (
           <ColumnsContainer>
-            <Drop type="COLUMN" direction="horizontal" droppableId="kanban">
-              <DropChild style={{ display: 'flex' }}>
-                {kanbans?.map((kanban, index) => (
-                  <Drag key={kanban.id} draggableId={'kanban' + kanban.id} index={index}>
-                    <KanbanColumn kanban={kanban} key={kanban.id} />
-                  </Drag>
-                ))}
-              </DropChild>
-            </Drop>
+            <div style={{ width: wrapperWidth }}>
+              <Drop type="COLUMN" direction="horizontal" droppableId="kanban">
+                <DropChild style={{ display: 'flex', height: '100%' }}>
+                  {kanbans?.map((kanban, index) => (
+                    <Drag key={kanban.id} draggableId={'kanban' + kanban.id} index={index}>
+                      <KanbanColumn kanban={kanban} />
+                    </Drag>
+                  ))}
+                </DropChild>
+              </Drop>
+            </div>
+
             <CreateKanban />
           </ColumnsContainer>
         )}

@@ -10389,16 +10389,16 @@ react-app-polyfill@^2.0.0:
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
 
-react-beautiful-dnd@^13.1.0:
-  version "13.1.0"
-  resolved "https://registry.npm.taobao.org/react-beautiful-dnd/download/react-beautiful-dnd-13.1.0.tgz#ec97c81093593526454b0de69852ae433783844d"
-  integrity sha1-7JfIEJNZNSZFSw3mmFKuQzeDhE0=
+react-beautiful-dnd@13.0.0:
+  version "13.0.0"
+  resolved "https://registry.npm.taobao.org/react-beautiful-dnd/download/react-beautiful-dnd-13.0.0.tgz#f70cc8ff82b84bc718f8af157c9f95757a6c3b40"
+  integrity sha1-9wzI/4K4S8cY+K8VfJ+VdXpsO0A=
   dependencies:
-    "@babel/runtime" "^7.9.2"
+    "@babel/runtime" "^7.8.4"
     css-box-model "^1.2.0"
     memoize-one "^5.1.1"
     raf-schd "^4.0.2"
-    react-redux "^7.2.0"
+    react-redux "^7.1.1"
     redux "^4.0.4"
     use-memo-one "^1.1.1"
 
@@ -10479,7 +10479,7 @@ react-query@^3.16.1, react-query@^3.5.10:
     broadcast-channel "^3.4.1"
     match-sorter "^6.0.2"
 
-react-redux@^7.2.0:
+react-redux@^7.1.1:
   version "7.2.4"
   resolved "https://registry.nlark.com/react-redux/download/react-redux-7.2.4.tgz#1ebb474032b72d806de2e0519cd07761e222e225"
   integrity sha1-HrtHQDK3LYBt4uBRnNB3YeIi4iU=
